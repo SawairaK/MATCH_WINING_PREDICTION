@@ -8,15 +8,15 @@ import matplotlib.pyplot as plt
 import pickle
 import os
 
-# Load your dataset
+# Loading dataset
 df = pd.read_csv("ODI_Match_info.csv")
 
-# Check the dataset
+# Checking the dataset
 print(df.head())
 print(df.info())
 
-# Assume the relevant features for prediction are 'team1', 'team2', 'venue', and 'toss_winner'
-# Target label is assumed to be 'winner'
+# features for prediction are 'team1', 'team2', 'venue', and 'toss_winner'
+# Target label is 'winner'
 # Preprocess the dataset: drop rows with missing values
 df = df[['team1', 'team2', 'venue', 'toss_winner', 'winner']].dropna()
 
@@ -26,14 +26,14 @@ le_team2 = LabelEncoder().fit(df['team2'])
 le_venue = LabelEncoder().fit(df['venue'])
 le_toss_winner = LabelEncoder().fit(df['toss_winner'])
 le_winner = LabelEncoder().fit(df['winner'])
-
+# LabelEncoder for each column
 df['team1'] = le_team1.transform(df['team1'])
 df['team2'] = le_team2.transform(df['team2'])
 df['venue'] = le_venue.transform(df['venue'])
 df['toss_winner'] = le_toss_winner.transform(df['toss_winner'])
 df['winner'] = le_winner.transform(df['winner'])
 
-# Define features and target variable
+# Define features(input) and target(output) variable
 X = df[['team1', 'team2', 'venue', 'toss_winner']]
 y = df['winner']
 
@@ -51,7 +51,7 @@ y_pred = rf_classifier.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Random Forest Classifier Accuracy: {accuracy * 100:.2f}%")
 
-# Feature Importance Analysis (optional)
+# Feature Importance Analysis Graph Visual Representation
 importances = rf_classifier.feature_importances_
 features = X.columns
 indices = np.argsort(importances)[::-1]
